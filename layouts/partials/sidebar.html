@@ -126,7 +126,7 @@
                 href="#{{ anchorize .ID }}"
                 class="hx-flex hx-rounded hx-px-2 hx-py-1.5 hx-text-sm hx-transition-colors [word-break:break-word] hx-cursor-pointer [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] contrast-more:hx-border hx-gap-2 before:hx-opacity-25 before:hx-content-['#'] hx-text-gray-500 hover:hx-bg-gray-100 hover:hx-text-gray-900 dark:hx-text-neutral-400 dark:hover:hx-bg-primary-100/5 dark:hover:hx-text-gray-50 contrast-more:hx-text-gray-900 contrast-more:dark:hx-text-gray-50 contrast-more:hx-border-transparent contrast-more:hover:hx-border-gray-900 contrast-more:dark:hover:hx-border-gray-50"
               >
-                {{- .Title -}}
+                {{- .Title | safeHTML | plainify | htmlUnescape -}}
               </a>
             </li>
           {{ end -}}
@@ -144,7 +144,13 @@
         <span class="hx-cursor-default">{{ $name }}</span>
       </li>
     {{ else }}
-      <li>{{ template "sidebar-item-link" dict "active" false "title" $name "link" (.URL | relLangURL) }}</li>
+      {{- $link := .URL -}}
+      {{- with .PageRef -}}
+        {{- if hasPrefix . "/" -}}
+          {{- $link = relLangURL (strings.TrimPrefix "/" .) -}}
+        {{- end -}}
+      {{- end -}}
+      <li>{{ template "sidebar-item-link" dict "active" false "title" $name "link" $link }}</li>
     {{ end }}
   {{- end -}}
 {{- end -}}
@@ -160,7 +166,7 @@
       hx-text-gray-500 hover:hx-bg-gray-100 hover:hx-text-gray-900 contrast-more:hx-border contrast-more:hx-border-transparent contrast-more:hx-text-gray-900 contrast-more:hover:hx-border-gray-900 dark:hx-text-neutral-400 dark:hover:hx-bg-primary-100/5 dark:hover:hx-text-gray-50 contrast-more:dark:hx-text-gray-50 contrast-more:dark:hover:hx-border-gray-50
     {{- end -}}"
     href="{{ .link }}"
-    {{ if $external }}target="_blank" rel="noreferer"{{ end }}
+    {{ if $external }}target="_blank" rel="noreferrer"{{ end }}
   >
     {{- .title -}}
     {{- with .context }}

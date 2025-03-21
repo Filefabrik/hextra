@@ -10,6 +10,40 @@ sidebar:
   These shortcodes are considered less stable and may be changed anytime.
 {{< /callout >}}
 
+## Badge
+
+```
+{{</* badge "Badge" */>}}
+```
+
+Result:
+
+{{< badge "Badge" >}}
+
+Variants:
+
+```
+{{</* badge content="info" type="info" */>}}
+{{</* badge content="warning" type="warning" */>}}
+{{</* badge content="error" type="error" */>}}
+```
+
+Result:
+
+{{< badge content="info" type="info" >}} &nbsp;
+{{< badge content="warning" type="warning" >}} &nbsp;
+{{< badge content="error" type="error" >}}
+
+With link and icon:
+
+```
+{{</* badge content="Releases" link="https://github.com/imfing/hextra/releases" icon="github" */>}}
+```
+
+Result:
+
+{{< badge content="Releases" link="https://github.com/imfing/hextra/releases" icon="github" >}}
+
 ## YouTube
 
 Embed a YouTube video.
